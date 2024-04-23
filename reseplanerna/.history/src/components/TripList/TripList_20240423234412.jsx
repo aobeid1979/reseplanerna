@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import RemoveTripButton from '../RemoveTripButton/RemoveTripButton';
-import UpdateTripButton from '../UpdateTripButton/UpdateTripButton';
 
 function TripList() {
   const [trips, setTrips] = useState([]);

@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import RemoveTripButton from '../RemoveTripButton/RemoveTripButton';
-import UpdateTripButton from '../UpdateTripButton/UpdateTripButton';
 
 function TripList() {
   const [trips, setTrips] = useState([]);
@@ -9,12 +7,9 @@ function TripList() {
     const storedTrips = localStorage.getItem('trips');
     if (storedTrips) {
       setTrips(JSON.parse(storedTrips));
+      console.log(trips)
     }
   }, []);
-
-  useEffect(() => {
-    console.log(trips);
-  }, [trips]);
 
   return (
     <div>
@@ -24,7 +19,6 @@ function TripList() {
           <p>From: {trip.home}</p>
           <p>{trip.startDate} - {trip.endDate}</p>
           <RemoveTripButton tripIndex={index} setTrips={setTrips} />
-          <UpdateTripButton tripIndex={index} setTrips={setTrips} />
         </div>
       ))}
     </div>

@@ -6,8 +6,6 @@ import TripForm from "../components/TripForm/TripForm";
 import TripList from "../components/TripList/TripList";
 
 export default function Home() {
-
-  
   return (
     <main className={styles.main}>
       <div className={styles.description}>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import RemoveTripButton from '../RemoveTripButton/RemoveTripButton';
-import UpdateTripButton from '../UpdateTripButton/UpdateTripButton';
+import RemoveTripButton from './RemoveTripButton'; // Make sure to import the RemoveTripButton component
 
 function TripList() {
   const [trips, setTrips] = useState([]);
@@ -24,7 +23,6 @@ function TripList() {
           <p>From: {trip.home}</p>
           <p>{trip.startDate} - {trip.endDate}</p>
           <RemoveTripButton tripIndex={index} setTrips={setTrips} />
-          <UpdateTripButton tripIndex={index} setTrips={setTrips} />
         </div>
       ))}
     </div>

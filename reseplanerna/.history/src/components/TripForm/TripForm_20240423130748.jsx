@@ -19,38 +19,29 @@ function TripForm() {
       return;
     }
 
-    const trip = { home, destination, startDate, endDate };
-    const storedTrips = localStorage.getItem('trips');
-    const trips = storedTrips ? JSON.parse(storedTrips) : [];
-    trips.push(trip);
-    localStorage.setItem('trips', JSON.stringify(trips));
-
     console.log(`Submitting trip from ${home} to ${destination} from ${startDate} to ${endDate}`);
-    setHome('');
-    setDestination('');
-    setStartDate('');
-    setEndDate('');
+    // Here you can add code to save the trip
   };
 
   return (
     <form onSubmit={handleSubmit}>
       <label>
         Home:
-        <input type="text" value={home} onChange={(e) => setHome(e.target.value)} required />
+        <input type="text" value={home} onChange={(e) => setHome(e.target.value)} />
       </label>
       <label>
         Destination:
-        <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} required />
+        <input type="text" value={destination} onChange={(e) => setDestination(e.target.value)} />
       </label>
       <label>
         Start Date:
-        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} required />
+        <input type="date" value={startDate} onChange={(e) => setStartDate(e.target.value)} />
       </label>
       <label>
         End Date:
-        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} required />
+        <input type="date" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
       </label>
-      <button type="submit">Add Trip</button>
+      <input type="submit" value="Submit" />
     </form>
   );
 }
