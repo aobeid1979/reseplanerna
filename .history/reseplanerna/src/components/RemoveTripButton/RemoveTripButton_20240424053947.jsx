@@ -1,5 +1,4 @@
 import React from 'react';
-import './RemoveTripButton.css';
 
 function RemoveTripButton({ tripIndex, setTrips }) {
   const handleRemove = () => {

@@ -1,11 +1,11 @@
 import React from 'react';
-import './RemoveTripButton.css';
 
-function RemoveTripButton({ tripIndex, setTrips }) {
-  const handleRemove = () => {
+function UpdateTripButton({ tripIndex, setTrips }) {
+  const handleUpdate = () => {
     const storedTrips = localStorage.getItem('trips');
     const trips = storedTrips ? JSON.parse(storedTrips) : [];
-    trips.splice(tripIndex, 1);
+    const updatedTrip = { ...trips[tripIndex], destination: 'New Destination' }; // Update the trip here
+    trips[tripIndex] = updatedTrip;
     localStorage.setItem('trips', JSON.stringify(trips));
     setTrips(trips);
   };
@@ -15,4 +15,4 @@ function RemoveTripButton({ tripIndex, setTrips }) {
   );
 }
 
-export default RemoveTripButton;
+export default UpdateTripButton;

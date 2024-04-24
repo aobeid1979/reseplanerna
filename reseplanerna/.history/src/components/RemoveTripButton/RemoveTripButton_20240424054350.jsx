@@ -1,6 +1,7 @@
 import React from 'react';
 import './RemoveTripButton.css';
 
+
 function RemoveTripButton({ tripIndex, setTrips }) {
   const handleRemove = () => {
     const storedTrips = localStorage.getItem('trips');

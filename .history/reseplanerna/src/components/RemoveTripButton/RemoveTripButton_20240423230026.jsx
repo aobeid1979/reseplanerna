@@ -1,5 +1,4 @@
 import React from 'react';
-import './RemoveTripButton.css';
 
 function RemoveTripButton({ tripIndex, setTrips }) {
   const handleRemove = () => {
@@ -11,7 +10,7 @@ function RemoveTripButton({ tripIndex, setTrips }) {
   };
 
   return (
-    <button className="remove-trip-button" onClick={handleRemove}>Remove Trip</button>
+    <button onClick={handleRemove}>Remove Trip</button>
   );
 }
 

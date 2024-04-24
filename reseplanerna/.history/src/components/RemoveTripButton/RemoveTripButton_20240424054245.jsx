@@ -1,5 +1,5 @@
 import React from 'react';
-import './RemoveTripButton.css';
+import Sty
 
 function RemoveTripButton({ tripIndex, setTrips }) {
   const handleRemove = () => {

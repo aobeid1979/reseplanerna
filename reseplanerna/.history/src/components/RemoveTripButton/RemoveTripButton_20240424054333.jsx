@@ -15,4 +15,4 @@ function RemoveTripButton({ tripIndex, setTrips }) {
   );
 }
 
-export default RemoveTripButton;
+export default RemoveTripButton;k

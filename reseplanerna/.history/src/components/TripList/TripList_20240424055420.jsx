@@ -20,7 +20,7 @@ function TripList() {
   return (
     <div>
       {trips.map((trip, index) => (
-        <div key={index} className="trip-card">
+        <div key={index} >
           <h2>{trip.destination}</h2>
           <p>From: {trip.home}</p>
           <p>{trip.startDate} - {trip.endDate}</p>
