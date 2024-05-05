@@ -1,6 +1,7 @@
 "use client";
 import { Travel } from "@/interface/travel";
 import { useEffect, useState } from "react";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Favorites = () => {
 	const [favorites, setFavorites] = useState<Travel[]>([]);
@@ -19,10 +20,10 @@ const Favorites = () => {
 	return (
 		<div className='bg-gray-800 text-white p-4 rounded-lg max-w-3xl mx-auto'>
 			{favorites.length === 0 ? (
-				<p className='text-center'>No favourites added</p>
+				<h1 className='text-center'>No favourites added</h1>
 			) : (
 				favorites.map((favorite, index) => (
-					<div key={index} className='mb-4 last:mb-0 p-4 bg-gray-700 rounded-lg shadow-lg'>
+					<article key={index} className='mb-4 last:mb-0 p-4 bg-gray-700 rounded-lg shadow-lg'>
 						<h2 className='text-2xl font-bold mb-2 text-white'>{favorite.destination}</h2>
 						<p>
 							<span className='font-semibold'>Start Point:</span> {favorite.startPoint}
@@ -39,13 +40,11 @@ const Favorites = () => {
 								<li key={index}>{activity}</li>
 							))}
 						</ul>
-						<button
-							onClick={() => handleRemove(index)}
-							className='mt-2 py-1 px-3 bg-red-500 text-white rounded hover:bg-red-600'
-						>
-							Remove
+
+						<button onClick={() => handleRemove(index)} aria-label='Remove from favorites'>
+							<FaTrashAlt className='cursor-pointer hover:text-red-500 transition-colors mt-4' />
 						</button>
-					</div>
+					</article>
 				))
 			)}
 		</div>
@@ -54,10 +53,10 @@ const Favorites = () => {
 
 const page = ({}) => {
 	return (
-		<div>
+		<main>
 			<h1 className='text-2xl font-bold text-center py-6'>My Favorites</h1>
 			<Favorites />
-		</div>
+		</main>
 	);
 };
 

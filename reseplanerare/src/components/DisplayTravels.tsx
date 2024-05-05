@@ -1,16 +1,26 @@
 "use client";
+import dynamic from "next/dynamic";
 import React, { useEffect, useState } from "react";
 import { openDB } from "idb";
-import TravelForm from "./TravelForm";
 import { Travel } from "@/interface/travel";
+import { FaStar, FaRegStar, FaEdit, FaTrashAlt } from "react-icons/fa";
+
+const TravelForm = dynamic(() => import("./TravelForm"), { ssr: false });
 
 const DisplayTravels = () => {
 	const [travels, setTravels] = useState<Travel[]>([]);
 	const [editingTravel, setEditingTravel] = useState<Travel | null>(null);
+	const [isFavorited, setIsFavorited] = useState<boolean[]>(new Array(travels.length).fill(false));
+	const [favorites, setFavorites] = useState<Travel[]>([]);
 
 	useEffect(() => {
 		fetchTravels();
-	}, []);
+		const storedFavorites = JSON.parse(localStorage.getItem("favorites") || "[]");
+		const newIsFavorited = travels.map((travel: Travel) =>
+			storedFavorites.some((favorite: Travel) => favorite.destination === travel.destination)
+		);
+		setIsFavorited(newIsFavorited);
+	}, [travels]);
 
 	const fetchTravels = async () => {
 		const db = await openDB("myDB", 1);
@@ -25,6 +35,14 @@ const DisplayTravels = () => {
 	const handleDelete = async (destination: string) => {
 		const db = await openDB("myDB", 1);
 		await db.delete("travels", destination);
+
+		const index = favorites.findIndex((travel) => travel.destination === destination);
+		if (index !== -1) {
+			const newFavorites = [...favorites];
+			newFavorites.splice(index, 1);
+			setFavorites(newFavorites);
+		}
+
 		fetchTravels();
 	};
 
@@ -35,17 +53,30 @@ const DisplayTravels = () => {
 		fetchTravels();
 	};
 
-	const handleFavorite = (travel: Travel) => {
-		let favorites = JSON.parse(localStorage.getItem("favorites") || "[]");
-		if (!favorites.some((favorite: Travel) => favorite.destination === travel.destination)) {
-			favorites.push(travel);
-			localStorage.setItem("favorites", JSON.stringify(favorites));
+	const handleFavorite = (travel: Travel, index: number) => {
+		const alreadyFavorited = favorites.some(
+			(favorite: Travel) => favorite.destination === travel.destination
+		);
+
+		if (alreadyFavorited) {
+			setFavorites(
+				favorites.filter((favorite: Travel) => favorite.destination !== travel.destination)
+			);
+		} else {
+			setFavorites([...favorites, travel]);
 		}
+
+		localStorage.setItem("favorites", JSON.stringify(favorites));
+
+		const newIsFavorited = [...isFavorited];
+		newIsFavorited[index] = !alreadyFavorited;
+		setIsFavorited(newIsFavorited);
 	};
+
 	return (
 		<div className='bg-gray-800 text-white p-4 rounded-lg max-w-3xl mx-auto'>
 			{travels.map((travel, index) => (
-				<div key={index} className='mb-4 last:mb-0 p-4 bg-gray-700 rounded-lg shadow-lg'>
+				<article key={index} className='mb-4 last:mb-0 p-4 bg-gray-700 rounded-lg shadow-lg'>
 					<h2 className='text-2xl font-bold mb-2 text-white'>{travel.destination}</h2>
 					<p>
 						<span className='font-semibold'>Start Point:</span> {travel.startPoint}
@@ -62,30 +93,35 @@ const DisplayTravels = () => {
 							<li key={index}>{activity}</li>
 						))}
 					</ul>
-					<div className='mt-4 flex gap-2'>
-						<button
-							className='py-1 px-3 bg-blue-500 text-white rounded hover:bg-blue-600'
+					<div className='mt-4 flex gap-4 items-center'>
+						<FaEdit
+							className='cursor-pointer hover:text-green-500 transition-colors'
 							onClick={() => handleEdit(travel)}
-						>
-							Edit
-						</button>
-						<button
-							className='py-1 px-3 bg-red-500 text-white rounded hover:bg-red-600'
+							aria-label='Edit travel plan'
+						/>
+						<FaTrashAlt
+							className='cursor-pointer hover:text-red-500 transition-colors'
 							onClick={() => handleDelete(travel.destination)}
-						>
-							Delete
-						</button>
-						<button
-							className='py-1 px-3 bg-green-500 text-white rounded hover:bg-green-600'
-							onClick={() => handleFavorite(travel)}
-						>
-							Favorite
-						</button>
+							aria-label='Delete travel plan'
+						/>
+						{isFavorited[index] ? (
+							<FaStar
+								className='cursor-pointer text-yellow-300 hover:text-yellow-500 transition-colors'
+								onClick={() => handleFavorite(travel, index)}
+								aria-label='Remove from favorites'
+							/>
+						) : (
+							<FaRegStar
+								className='cursor-pointer hover:text-yellow-500 transition-colors'
+								onClick={() => handleFavorite(travel, index)}
+								aria-label='Add to favorites'
+							/>
+						)}
 					</div>
-					{editingTravel === travel && (
+					{editingTravel?.destination === travel.destination && (
 						<TravelForm initialTravel={editingTravel} onSubmit={handleUpdate} />
 					)}
-				</div>
+				</article>
 			))}
 		</div>
 	);
