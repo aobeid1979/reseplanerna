@@ -28,6 +28,7 @@ Detta projektet är en reseplanerare där användare kan lägga till resor inneh
 
 Vi har implementerat flera förbättringar för att förbättra prestanda och tillgänglighet i vår Next.js-applikation.
 Vi har bland annat en ny dynamisk favorit knapp som är en stjärna. När man trycker på den läggs resan till som favorit och stjärnan blir ifylld i en vacker gul färg vilket indikerar till användaren att resan nu finns som favorit.
+Vi har desutom lagt till en knapp som låter användaren välja om den vill använda light eller dark mode med en knapp som simpelt visar vilken man har valt.
 
 ## Lazy Loading
 
